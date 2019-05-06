@@ -1,6 +1,11 @@
 <?php
 declare(strict_types=1);
 
+namespace Components\Calculator;
+
+use Exceptions\DividingByZeroException;
+use Exceptions\NegativeNumberException;
+
 class Calculator implements CalculatorInterface
 {
     public function sum(float $value1, float $value2): float

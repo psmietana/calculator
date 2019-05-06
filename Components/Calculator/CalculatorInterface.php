@@ -1,5 +1,7 @@
 <?php
 
+namespace Components\Calculator;
+
 interface CalculatorInterface
 {
     public function sum(float $value1, float $value2): float;

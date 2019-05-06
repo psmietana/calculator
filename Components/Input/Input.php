@@ -1,5 +1,9 @@
 <?php
 
+namespace Components\Input;
+
+use Components\Validation\ValidatorInterface;
+
 class Input
 {
     private static $errors = [];
@@ -26,6 +30,8 @@ class Input
 
     private static function getValidator(string $rule): ValidatorInterface
     {
-        return new (ucfirst($rule) . 'Validator');
+        $class = 'Components\\Validation\\' . ucfirst($rule) . 'Validator';
+
+        return new $class;
     }
 }

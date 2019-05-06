@@ -1,14 +1,16 @@
 <?php
 
-class NonzeroValidator implements ValidatorInterface
+namespace Components\Validation;
+
+class IntegerValidator implements ValidatorInterface
 {
     public $message;
 
     public function isValid($value): bool
     {
-        if (0 === $value) {
+        if (!is_int($value)) {
             $this->message = sprintf(
-                '%s should not be equal to zero',
+                '%s is not valid integer',
                 $value
             );
 

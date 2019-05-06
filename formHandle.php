@@ -3,16 +3,23 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+include_once 'autoload.php';
+
+use Components\Input\Input;
+use Components\Calculator\Calculator;
+
 $action = Input::escape($_POST['action']);
 $value1 = Input::escape($_POST['value1']);
 $value2 = Input::escape($_POST['value2']);
+
+Input::check($action, ['nonEmpty', 'allowedAction']);
 
 if (in_array($action, ['sum', 'difference', 'product', 'quotient'])) {
     Input::check($value1, ['float']);
     Input::check($value2, ['float']);
 
     if ('quotient' === $action) {
-        Input::check($value2, ['nonzero']);
+        Input::check($value2, ['nonZero']);
     }
 }
 
@@ -27,7 +34,7 @@ if (empty($errors)) {
         $calculator = new Calculator();
         $values = array_filter([$value1, $value2]);
         $response['result'] = $calculator->$action(...$values);
-    } catch (InvalidArgumentException $e) {
+    } catch (\InvalidArgumentException $e) {
         $response['errors'][] = $e->getMessage();
     }
 } else {

@@ -1,14 +1,16 @@
 <?php
 
-class PositiveValidator implements ValidatorInterface
+namespace Components\Validation;
+
+class FloatValidator implements ValidatorInterface
 {
     public $message;
 
     public function isValid($value): bool
     {
-        if (0 >= $value) {
+        if (!is_float($value)) {
             $this->message = sprintf(
-                '%s is not positive number',
+                '%s is not valid float',
                 $value
             );
 
