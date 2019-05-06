@@ -15,16 +15,20 @@ $value2 = Input::escape($_POST['value2']);
 Input::check($action, ['nonEmpty', 'allowedAction']);
 
 if (in_array($action, ['sum', 'difference', 'product', 'quotient'])) {
-    Input::check($value1, ['float']);
-    Input::check($value2, ['float']);
+    Input::check($value1, ['numeric']);
+    Input::check($value2, ['numeric']);
 
     if ('quotient' === $action) {
         Input::check($value2, ['nonZero']);
     }
+    $value1 = floatval($value1);
+    $value2 = floatval($value2);
 }
 
 if ('factorial' === $action) {
-    Input::check($value1, ['integer', 'positive']);
+    Input::check($value1, ['integer', 'nonNegative']);
+    $value1 = (int) $value1;
+    $value2 = null;
 }
 
 $response = [];

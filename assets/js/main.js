@@ -7,13 +7,14 @@ var bindButtonClick = function () {
         $currentDisplay.append($value);
         if ($this.hasClass('mathButtons')) {
             $.ajax({
-                method: "POST",
-                url: "formHandle.php",
-                data: { value1: "John", value2: "Boston" }
+                method: 'POST',
+                url: 'formHandle.php',
+                data: { value1: '2', value2: '3', action: 'sum' }
             })
             .done(function (response) {
-                if (typeof response.result !== 'undefined' && response.result.length) {
-                    $currentDisplay.text(response.result);
+                var json = JSON.parse(response);
+                if (typeof json.result !== 'undefined') {
+                    $currentDisplay.text(json.result);
                 }
             });
         }

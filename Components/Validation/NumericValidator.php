@@ -2,15 +2,15 @@
 
 namespace Components\Validation;
 
-class FloatValidator implements ValidatorInterface
+class NumericValidator implements ValidatorInterface
 {
     public $message;
 
     public function isValid($value): bool
     {
-        if (!is_float($value)) {
+        if (!is_numeric($value)) {
             $this->message = sprintf(
-                '%s is not valid float',
+                '%s is not numeric',
                 $value
             );
 

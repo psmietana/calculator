@@ -8,7 +8,7 @@ class IntegerValidator implements ValidatorInterface
 
     public function isValid($value): bool
     {
-        if (!is_int($value)) {
+        if ((int) $value != $value) {
             $this->message = sprintf(
                 '%s is not valid integer',
                 $value
