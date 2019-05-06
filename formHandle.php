@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $action = Input::escape($_POST['action']);
 $value1 = Input::escape($_POST['value1']);
 $value2 = Input::escape($_POST['value2']);
