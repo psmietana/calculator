@@ -12,7 +12,9 @@ var bindButtonClick = function () {
                 data: { value1: "John", value2: "Boston" }
             })
             .done(function (response) {
-                console.log(response);
+                if (typeof response.result !== 'undefined' && response.result.length) {
+                    $currentDisplay.text(response.result);
+                }
             });
         }
     })
