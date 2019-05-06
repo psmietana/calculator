@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <link href="assets/css/main.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <fieldset id="container">
+            <form name="calculator" action="formHandle.php">
+
+                <input id="display" type="text" name="display" readonly>
+                <span class="button digits">7</span>
+                <span class="button digits">8</span>
+                <span class="button digits">9</span>
+                <span class="button mathButtons">+</span>
+                <br>
+                <span class="button digits">4</span>
+                <span class="button digits">5</span>
+                <span class="button digits">6</span>
+                <span class="button mathButtons">-</span>
+                <br>
+                <span class="button digits">1</span>
+                <span class="button digits">2</span>
+                <span class="button digits">3</span>
+                <span class="button mathButtons">x</span>
+                <br>
+                <span id="clearButton" class="button">C</span>
+                <span class="button digits">0</span>
+                <span class="button mathButtons">=</span>
+                <span class="button mathButtons">/</span>
+            </form>
+        </fieldset>
+    </div>
+</body>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<script src="assets/js/main.js"></script>
+</html>
