@@ -1,29 +1,25 @@
 <?php
 
-$action = htmlspecialchars($_POST['action']);
-$value1 = htmlspecialchars($_POST['value1']);
-$value2 = htmlspecialchars($_POST['value2']);
+$action = Input::escape($_POST['action']);
+$value1 = Input::escape($_POST['value1']);
+$value2 = Input::escape($_POST['value2']);
 
-$response = [];
-
-$input = new Input();
 if (in_array($action, ['sum', 'difference', 'product', 'quotient'])) {
-    $input->check($value1, ['float']);
-    $input->check($value2, ['float']);
+    Input::check($value1, ['float']);
+    Input::check($value2, ['float']);
 
     if ('quotient' === $action) {
-        $input->check($value2, ['nonzero']);
+        Input::check($value2, ['nonzero']);
     }
 }
 
 if ('factorial' === $action) {
-    $input->check($value1, ['integer', 'positive']);
+    Input::check($value1, ['integer', 'positive']);
 }
 
-$errors = $input->getErrors();
-if (!empty($errors)) {
-    $response['errors'] = $errors;
-} else {
+$response = [];
+$errors = Input::getErrors();
+if (empty($errors)) {
     try {
         $calculator = new Calculator();
         $values = array_filter([$value1, $value2]);
@@ -31,6 +27,8 @@ if (!empty($errors)) {
     } catch (InvalidArgumentException $e) {
         $response['errors'][] = $e->getMessage();
     }
+} else {
+    $response['errors'] = $errors;
 }
 
 header('Content-type', 'application/json; charset=utf-8');

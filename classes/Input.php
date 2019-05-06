@@ -2,24 +2,29 @@
 
 class Input
 {
-    private $errors = [];
+    private static $errors = [];
 
-    public function check($value, array $rules)
+    public static function check($value, array $rules)
     {
         foreach ($rules as $rule) {
-            $validator = $this->getValidator($rule);
+            $validator = self::getValidator($rule);
             if (false === $validator->isValid($value)) {
-                $this->errors[] = $validator->message;
+                self::$errors[] = $validator->message;
             }
         }
     }
 
-    public function getErrors(): array
+    public static function escape($value)
     {
-        return $this->errors;
+        return htmlspecialchars($value);
     }
 
-    private function getValidator(string $rule): ValidatorInterface
+    public static function getErrors(): array
+    {
+        return self::$errors;
+    }
+
+    private static function getValidator(string $rule): ValidatorInterface
     {
         return new (ucfirst($rule) . 'Validator');
     }

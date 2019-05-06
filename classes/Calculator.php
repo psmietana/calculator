@@ -39,7 +39,7 @@ class Calculator implements CalculatorInterface
 
         $result = 1;
         for ($i = $value; $i >= 2; $i--) {
-            $result = $result * $i;
+            $result *= $i;
         }
 
         return $result;
