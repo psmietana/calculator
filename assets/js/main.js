@@ -1,26 +1,70 @@
-var bindButtonClick = function () {
-    $('.button').click(function (e) {
-        var $this = $(this);
-        var $value = $this.text();
-        var $currentDisplay = $('#display');
+Calculator = {
+    value1: '0',
+    value2: '0',
+    operator: null,
+    action: null,
 
-        $currentDisplay.append($value);
-        if ($this.hasClass('mathButtons')) {
-            $.ajax({
-                method: 'POST',
-                url: 'formHandle.php',
-                data: { value1: '2', value2: '3', action: 'sum' }
-            })
-            .done(function (response) {
-                var json = JSON.parse(response);
-                if (typeof json.result !== 'undefined') {
-                    $currentDisplay.text(json.result);
+    bindMathButtonClick: function () {
+        $('.mathButtons').click(function (e) {
+            let $this = $(this);
+            let $value = $this.text();
+            let $currentDisplay = $('#display');
+
+            $currentDisplay.append($value);
+            if (('=' === $value && null !== Calculator.action) || '!' === $value) {
+                if ('!' === $value) {
+                    Calculator.operator = $value;
+                    Calculator.action = $this.data('action');
                 }
-            });
-        }
-    })
+                $.ajax({
+                    method: 'POST',
+                    url: 'formHandle.php',
+                    data: {value1: Calculator.value1, value2: Calculator.value2, action: Calculator.action}
+                })
+                .done(function (response) {
+                    let json = JSON.parse(response);
+                    if (typeof json.result !== 'undefined') {
+                        Calculator.value1 = json.result;
+                        Calculator.value2 = '0';
+                        Calculator.operator = null;
+                        Calculator.action = null;
+
+                        $currentDisplay.text(json.result);
+                    } else if (typeof json.errors !== 'undefined') {
+                        Calculator.value1 = '0';
+                        Calculator.value2 = '0';
+                        Calculator.operator = null;
+                        Calculator.action = null;
+
+                        alert(json.errors.join("\n"));
+                    }
+                });
+            } else {
+                Calculator.operator = $value;
+                Calculator.action = $this.data('action');
+                $currentDisplay.text(Calculator.value1 + Calculator.operator + Calculator.value2);
+            }
+        })
+    },
+
+    bindDigitButtonClick: function () {
+        $('.digits').click(function (e) {
+            let $this = $(this);
+            let $value = $this.text();
+            let $currentDisplay = $('#display');
+
+            if (null === Calculator.operator) {
+                Calculator.value1 = Number(Calculator.value1.toString() + $value);
+                $currentDisplay.text(Calculator.value1);
+            } else {
+                Calculator.value2 = Number(Calculator.value2.toString() + $value);
+                $currentDisplay.text(Calculator.value1 + Calculator.operator + Calculator.value2);
+            }
+        })
+    }
 };
 
 $( document ).ready(function() {
-    bindButtonClick();
+    Calculator.bindDigitButtonClick();
+    Calculator.bindMathButtonClick();
 });
