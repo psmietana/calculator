@@ -4,6 +4,20 @@ Calculator = {
     operator: null,
     action: null,
 
+    clearCalc: function () {
+        Calculator.value1 = '0';
+        Calculator.value2 = '0';
+        Calculator.operator = null;
+        Calculator.action = null;
+    },
+
+    bindClearButtonClick: function () {
+        $('#clearButton').click(function (e) {
+            Calculator.clearCalc();
+            $('#display').text('');
+        })
+    },
+
     bindMathButtonClick: function () {
         $('.mathButtons').click(function (e) {
             let $this = $(this);
@@ -24,17 +38,13 @@ Calculator = {
                 .done(function (response) {
                     let json = JSON.parse(response);
                     if (typeof json.result !== 'undefined') {
+                        Calculator.clearCalc();
                         Calculator.value1 = json.result;
-                        Calculator.value2 = '0';
-                        Calculator.operator = null;
-                        Calculator.action = null;
 
                         $currentDisplay.text(json.result);
                     } else if (typeof json.errors !== 'undefined') {
-                        Calculator.value1 = '0';
-                        Calculator.value2 = '0';
-                        Calculator.operator = null;
-                        Calculator.action = null;
+                        Calculator.clearCalc();
+                        $('#display').text('');
 
                         alert(json.errors.join("\n"));
                     }
@@ -61,10 +71,12 @@ Calculator = {
                 $currentDisplay.text(Calculator.value1 + Calculator.operator + Calculator.value2);
             }
         })
-    }
+    },
+
 };
 
 $( document ).ready(function() {
     Calculator.bindDigitButtonClick();
     Calculator.bindMathButtonClick();
+    Calculator.bindClearButtonClick();
 });

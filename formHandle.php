@@ -36,7 +36,7 @@ $errors = Input::getErrors();
 if (empty($errors)) {
     try {
         $calculator = new Calculator();
-        $values = array_filter([$value1, $value2]);
+        $values = [$value1, $value2];
         $response['result'] = $calculator->$action(...$values);
     } catch (\InvalidArgumentException $e) {
         $response['errors'][] = $e->getMessage();
